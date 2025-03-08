@@ -1,3 +1,31 @@
+<h1> Maze Generator </h1>
+
+<div> 
+  Taille :
+  <input [(ngModel)]="size[0]" type="number" />
+  <input [(ngModel)]="size[1]" type="number" />
+  <input [(ngModel)]="size[2]" type="number" />
+</div>
+<div>
+  <button (click)="generateMaze()"> Generate </button>
+</div>
+
+<div> Start : 
+  <input [(ngModel)]="start[0]" type="number" /> 
+  <input [(ngModel)]="start[1]" type="number" />
+  <input [(ngModel)]="start[2]" type="number" />
+</div>
+
+<div> Stop : 
+  <input [(ngModel)]="stop[0]" type="number" /> 
+  <input [(ngModel)]="stop[1]" type="number" />
+  <input [(ngModel)]="stop[2]" type="number" />
+</div>
+
+<div> 
+  <button (click)="findPath()"> Solve </button>
+</div>
 
 
-<router-outlet />
+
+
