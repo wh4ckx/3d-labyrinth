@@ -9,6 +9,6 @@ export class MazeService {
 
   generateMaze(size: number[]) {
     const [x, y, z] = size; 
-    return Array.from({length: x}, () => Array.from({length: y}, () => Array.from({length: z}, () => Math.floor(Math.random() * 2))));
+    return Array.from({length: x}, () => Array.from({length: y}, () => Array.from({length: z}, () => Math.random() > 0.8 ? 1 : 0)));
   }
 }
