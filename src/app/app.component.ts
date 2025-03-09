@@ -50,9 +50,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   initCube(): void {
-    let loader = new THREE.TextureLoader();  
-  
-    this.cube = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshBasicMaterial({ color: 0x00ff00 }));
+    this.cube = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshBasicMaterial({ color:0x696969 }));
     this.cube.rotation.x = Math.PI / 4;
     this.scene.add(this.cube);
   }
