@@ -13,16 +13,20 @@ import { ThreeMazeComponent } from './components/three-maze/three-maze.component
 export class AppComponent {
   title = '3d-labyrinth';
   size = [5, 5, 5];
-  start = [0, 0, 0];
-  stop = [0, 0, 0];
+  start : [number, number, number] = [0, 0, 0];
+  stop : [number, number, number] = [0, 0, 0];
 
   maze : WritableSignal<number[][][]> = signal([]);
 
   constructor(private pathService: PathService, private mazeService: MazeService) {}
 
+  updateStartStop() {
+    this.start = [...this.start]
+    this.stop = [...this.stop]
+  }
   
   findPath() {
-    console.log(this.maze);
+
     this.pathService.findPath(this.maze(), this.start, this.stop).subscribe(path => console.log(path));
   }
 
