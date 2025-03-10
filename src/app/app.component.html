@@ -1,30 +1,33 @@
-<h1> Maze Generator </h1>
 <div class="content">
+  <div class = "placeholder"></div>
   <div>
-    Taille :
-    <input [(ngModel)]="size[0]" type="number" />
-    <input [(ngModel)]="size[1]" type="number" />
-    <input [(ngModel)]="size[2]" type="number" />
-  </div>
-  <div>
-    <button (click)="generateMaze()"> Generate </button>
-  </div>
+    <h1> Maze Generator </h1>
+    <div>
+      Taille :
+      <input [(ngModel)]="size[0]" type="number" />
+      <input [(ngModel)]="size[1]" type="number" />
+      <input [(ngModel)]="size[2]" type="number" />
+    </div>
+    <div>
+      <button (click)="generateMaze()"> Generate </button>
+    </div>
 
-  <div> Start :
-    <input [(ngModel)]="start[0]" type="number" />
-    <input [(ngModel)]="start[1]" type="number" />
-    <input [(ngModel)]="start[2]" type="number" />
-  </div>
+    <div> Start :
+      <input [(ngModel)]="start[0]" type="number" />
+      <input [(ngModel)]="start[1]" type="number" />
+      <input [(ngModel)]="start[2]" type="number" />
+    </div>
 
-  <div> Stop :
-    <input [(ngModel)]="stop[0]" type="number" />
-    <input [(ngModel)]="stop[1]" type="number" />
-    <input [(ngModel)]="stop[2]" type="number" />
-  </div>
+    <div> Stop :
+      <input [(ngModel)]="stop[0]" type="number" />
+      <input [(ngModel)]="stop[1]" type="number" />
+      <input [(ngModel)]="stop[2]" type="number" />
+    </div>
 
-  <div>
-    <button (click) = "updateStartStop()"> Mettre a jour </button>
-    <button (click)="findPath()"> Solve </button>
+    <div>
+      <button (click)="updateStartStop()"> Mettre a jour </button>
+      <button (click)="findPath()"> Solve </button>
+    </div>
   </div>
 </div>
 <app-three-maze [maze]="maze()" [start]="start" [stop]="stop"> </app-three-maze>
