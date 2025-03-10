@@ -93,6 +93,9 @@ export class ThreeMazeComponent implements AfterViewInit, OnChanges {
     if (this.mazeGroup) {
       this.scene.remove(this.mazeGroup);
     }
+    if(this.pathGroup) {
+      this.scene.remove(this.pathGroup);
+    }
 
     this.camera.position.set(0, 0, Math.max(...this.maze.map(layer => layer.length)) * 1.5);
 
@@ -128,15 +131,15 @@ export class ThreeMazeComponent implements AfterViewInit, OnChanges {
 
     console.log(this.path);
 
-    let pathGroup = new THREE.Group();
+    this.pathGroup = new THREE.Group();
 
     this.path.forEach(([x, y, z]) => {
       let pathCube = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshBasicMaterial({ color:0x0000ff }));
       pathCube.position.set(x, y, z);
-      pathGroup.add(pathCube);
+      this.pathGroup.add(pathCube);
     });
 
-    this.scene.add(pathGroup);
+    this.scene.add(this.pathGroup);
   }
 
   render(): void {    
