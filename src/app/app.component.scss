@@ -14,8 +14,14 @@ input {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     z-index: 10;
+    pointer-events: none;
 }
 
 .placeholder {
     grid-column: span 3/ span 3;
+    pointer-events: none; 
+}
+
+.clickable {
+    pointer-events: auto;
 }

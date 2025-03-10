@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 @Component({
   selector: 'app-three-maze',
@@ -13,13 +14,16 @@ export class ThreeMazeComponent implements AfterViewInit, OnChanges {
   @Input() maze: number[][][] = [];
   @Input() start: [number, number, number] = [0, 0, 0];
   @Input() stop: [number, number, number] = [0, 0, 0];
+  @Input() path: number[][] = [];
 
   private mazeGroup!: THREE.Group;
+  private pathGroup!: THREE.Group;
   private startCube!: THREE.Mesh;
   private stopCube!: THREE.Mesh;
   private scene!: THREE.Scene;
   private renderer!: THREE.WebGLRenderer;
   private camera!: THREE.Camera;
+  private controls!: OrbitControls;
 
   ngAfterViewInit(): void {
     this.initScene();
@@ -36,6 +40,10 @@ export class ThreeMazeComponent implements AfterViewInit, OnChanges {
     if (changes['start'] || changes['stop']) {
       this.updateStartStop();
     }
+
+    if (changes['path']) {
+      this.drawPath();
+    }
   }
 
   initScene(): void {
@@ -45,13 +53,21 @@ export class ThreeMazeComponent implements AfterViewInit, OnChanges {
     let canvasElement = this.canvas.nativeElement;
     let aspectRatio = canvasElement.clientWidth / canvasElement.clientHeight;
   
-    this.camera = new THREE.PerspectiveCamera(50, aspectRatio, 0.1, 1000);
-    this.camera.position.y = 2;
-    this.camera.position.x = 2;
+    
+
 
     this.renderer = new THREE.WebGLRenderer({ canvas: canvasElement });
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(canvasElement.clientWidth, canvasElement.clientHeight);
+
+    this.camera = new THREE.PerspectiveCamera(50, aspectRatio, 0.1, 1000);
+
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.25;
+    this.controls.update();
+
+    
   }
 
   updateStartStop(): void {
@@ -78,7 +94,11 @@ export class ThreeMazeComponent implements AfterViewInit, OnChanges {
       this.scene.remove(this.mazeGroup);
     }
 
-    this.camera.position.set(this.maze.length / 2, this.maze[0].length / 2, this.maze[0][0].length * 2);
+    this.camera.position.set(0, 0, Math.max(...this.maze.map(layer => layer.length)) * 1.5);
+
+    // set rotation point to center of maze
+    this.controls.target.set(this.maze.length / 2, this.maze[0].length / 2, this.maze[0][0].length / 2);
+    this.controls.update();
 
     this.mazeGroup = new THREE.Group();
 
@@ -97,10 +117,34 @@ export class ThreeMazeComponent implements AfterViewInit, OnChanges {
     this.scene.add(this.mazeGroup);
   }
 
+  drawPath(): void {
+    if (this.path.length === 0) {
+      return;
+    }
+
+    if (this.pathGroup) {
+      this.scene.remove(this.pathGroup);
+    }
+
+    console.log(this.path);
+
+    let pathGroup = new THREE.Group();
+
+    this.path.forEach(([x, y, z]) => {
+      let pathCube = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), new THREE.MeshBasicMaterial({ color:0x0000ff }));
+      pathCube.position.set(x, y, z);
+      pathGroup.add(pathCube);
+    });
+
+    this.scene.add(pathGroup);
+  }
+
   render(): void {    
     this.renderer.render(this.scene, this.camera);
   
     // this.cube.rotation.y += 0.01;
+
+    
   
     requestAnimationFrame(this.render.bind(this));
   }

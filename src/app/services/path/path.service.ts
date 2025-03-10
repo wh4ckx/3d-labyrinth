@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class PathService {
   }
 
   findPath(maze : number[][][], start : number[], stop : number[]) : Observable<number[][]> {
-    return this.http.post<number[][]>("/api/find_path", {maze, start, stop});
+    return this.http.post<{path: number[][]}>("/api/find_path", {maze, start, stop}).pipe(map(response => response.path));
   }
     
 }
